@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EntidadController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,15 +13,38 @@ use App\Http\Controllers\EntidadController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
+Auth::routes();    
+
+Route::group(['middleware' => 'auth'], function(){  
+
+    //Route::get('/', function () { return view('home'); });
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'message'])->name('home');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    Route::resource('g-tipoivas', App\Http\Controllers\GTipoIvaController::class);
+    Route::resource('g-talonarios', App\Http\Controllers\GTalonarioController::class);
+    Route::resource('g-entidades', App\Http\Controllers\GEntidadController::class);
+    Route::resource('g-localidades', App\Http\Controllers\GLocalidadController::class);
+    Route::resource('g-impuestos', App\Http\Controllers\GImpuestoController::class);
+    Route::resource('g-tipocomprobante', App\Http\Controllers\GTipoComprobanteController::class);
+    Route::resource('g-comprobante', App\Http\Controllers\GTipoComprobanteController::class);
+    Route::resource('g-usuarios', App\Http\Controllers\Auth\UserController::class);
+    
+    Route::resource('f-tipofondos', App\Http\Controllers\FTipoFondoController::class);
+
+    Route::resource('t-plancuentas', App\Http\Controllers\TPlancuentaController::class);
+
+    Route::resource('s-listadeprecios', App\Http\Controllers\SListadeprecioController::class);
+
+    Route::resource('q-documentacion', App\Http\Controllers\QDocumentacionController::class);
+    Route::resource('q-noconformidad', App\Http\Controllers\QNoconformidadController::class);
+
+    Route::resource('r-establecimientos', App\Http\Controllers\REstablecimientoController::class);
+
+    
 });
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::resource('entidades', EntidadController::class);
+//Route::get('entidades/{id}/destroy', [EntidadController::class, 'destroy'])->name('entidades.destroy');
 
 /*
 Route::get('/entidades', [EntidadController::class, 'index']);

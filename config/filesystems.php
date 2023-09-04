@@ -65,6 +65,11 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'documentacion' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/documentacion',
+        ],
+
     ],
 
     /*

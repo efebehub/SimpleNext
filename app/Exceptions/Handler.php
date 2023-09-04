@@ -32,6 +32,11 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        //
+        //Redireccionar a login si error 419
+        $this->renderable(function (\Exception $e) {
+            if ($e->getPrevious() instanceof \Illuminate\Session\TokenMismatchException) {
+                return redirect()->route('login');
+            };
+        });
     }
 }
